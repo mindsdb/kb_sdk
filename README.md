@@ -15,13 +15,16 @@ from minds_sdk import Client
 kb = Client(base_url=.., api_key=..).kb('sec_filings')
 
 # Search
-results = kb.search("Quarterly reports for NVIDIA in H2 2024")
+results = kb.search("Quarterly reports for NVIDIA during H2 2024")
 
 # Analyze results
 answer = results.analyze("What changed in revenue?")
 
 # Unbound analysis over the entire KB
 answer = kb.analyze("Quarterly revenue for NVIDIA over the past 5 years")
+
+# Search with literal metadata filters
+results = kb.search("NVIDIA during H2 2024", report_type="Quarterly")
 ```
 
 The goal with this part of the SDK is simple: **ask a question and get the answer your need**—`fast`. As such; the default for `.search(<plain language query>)` method auto-magically determines hybrid metadata filtering and semantic search over unstructured data to return the most relevant results. If, instead of a list results you want a direct answer from either your search results or the entire knowledge base, use `.analyze(<plain language question>)`. That's it folks! No agents bs, no fuss—just answers.
