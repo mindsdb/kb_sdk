@@ -68,7 +68,6 @@ The goal with this part of the SDK is simple: **ask a question and get the answe
 
 ## `expert-mode` 
 
-As promised, let's dive into `expert-mode`.
 
 #### .insert(<content>, <optional: attrs>)
 
