@@ -1,6 +1,6 @@
 # Knowledge Bases via Minds SDK
 
-With the Knowledgebase SDK, we wanted to it dead simple to build Large Scale Semantic Search on top MindsDB, as such the default configuration is designed for the simplest wat to: load, search, and get answers from large amounts of unstructured data in just a few lines of code. 
+With the Knowledgebase SDK, the goal is to make it dead simple to build large-scale semantic search on top of MindsDB. With a straightforward SDK to: load data, search, and get answers from vast amounts of unstructured information in just a few lines of code.
 
 
 > **NOTE:** We'll dive into `expert-mode` soon—for those who prefer coding with their hoodie up, tinkering with every last detail- But first, let's enjoy the simplicity of the default `hassle-zero` mode.
