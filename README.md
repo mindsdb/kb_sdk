@@ -1,6 +1,6 @@
 # Knowledge Bases SDK (RFC)
 
-With the Knowledgebase SDK, the goal is to make it dead simple to build build and use MindsDB large-scale semantic search capabilities. With a straightforward SDK to: load data, search, and get answers from vast amounts of unstructured information in just a few lines of code.
+The goal of the Knowledgebase SDK is to make it dead simple to build and use MindsDB's large-scale semantic search capabilities. With a straightforward SDK to: load data, search, and obtain answers from vast amounts of unstructured information in just a few lines of code.
 
 
 > **NOTE:** We'll dive into `expert-mode` soon—for those who prefer coding with their hoodie up, tinkering with every last detail- But first, let's enjoy the simplicity of the default `hassle-zero` mode.
