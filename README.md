@@ -26,8 +26,11 @@ class FilingSchema(BaseModel):
     most_relavant_data_json: dict  
     summary: str
 
-# Simply insert anything you want into the KB
+
 kb = Client(base_url=<yourmindsdbserver>).kb.create('sec_filings', FilingSchema)
+
+# Simply insert anything you want into the KB 
+# -- in this case all pdfs in a folder
 for pdf_file in Path("quarterly_filings_folder").glob("*.pdf"):
     kb.insert(pdf_file, report_type='quarterly')  
 ```
