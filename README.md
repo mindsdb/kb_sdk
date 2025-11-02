@@ -27,7 +27,7 @@ class FilingSchema(BaseModel):
     summary: str
 
 # Simply insert anything you want into the KB
-kb = Client(base_url=.., api_key=..).kb.create('sec_filings', FilingSchema)
+kb = Client(base_url=<yourmindsdbserver>).kb.create('sec_filings', FilingSchema)
 for pdf_file in Path("quarterly_filings_folder").glob("*.pdf"):
     kb.insert(pdf_file, report_type='quarterly')  
 ```
@@ -47,7 +47,7 @@ from minds_sdk import Client
 
 # Example for seamntic search over SEC Filings 
 # Load a pre-existing knowledge base 'sec_filings'
-kb = Client(base_url=.., api_key=..).kb('sec_filings')
+kb = Client(base_url=<yourmindsdbserver>).kb('sec_filings')
 
 # Semantic Search 
 results = kb.search("Quarterly reports for NVIDIA during H2 2024")
@@ -86,4 +86,7 @@ The `insert` method is designed for maximum flexibility and ease-of-use.
 
     - If you don't specify an `id`, MindsDB will automatically generate one by taking an MD5 hash of the content. 
     - Globally disable autofill using `_auto_fill=False`.
+    - By default, `insert` works as an upsert (updates existing records if they already exist, based on `id`). Disable this behavior by setting `_upsert=False`.
+
+
 
