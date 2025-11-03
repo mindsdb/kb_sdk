@@ -84,7 +84,7 @@ The `insert` method is designed for maximum flexibility and ease-of-use.
   - Or a Pydantic object matching your schema.
 > **Tip:** For best auto-extraction accuracy, document your schema attributes in the Pydantic class using descriptive field docs.
 
-> **To separate data processing:** If you prefer to handle your own data processing, you can insert Pydantic objects directly, and MindsDB will not apply any additional processing.
+> **DIY Data Processing:** If you prefer to handle your own data processing, you can insert Pydantic objects directly, and MindsDB will not apply any additional processing.
 
 
 - **Named arguments** let you set any attribute directly (`key=<value>`) and skip auto-fill for that specific attribute (`<value>` can be `None`). 
