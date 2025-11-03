@@ -30,7 +30,7 @@ class FilingSchema(BaseModel):
 kb = Client(base_url=<yourmindsdbserver>).kb.create('sec_filings', FilingSchema)
 
 # Simply insert anything you want into the KB 
-# -- in this case all pdfs in a folder
+# -- in this case SEC quarterly reports pdfs
 for pdf_file in Path("quarterly_filings_folder").glob("*.pdf"):
     kb.insert(pdf_file, report_type='quarterly')  
 ```
@@ -78,18 +78,44 @@ The goal with this part of the SDK is simple: **ask a question and get the answe
 The `insert` method is designed for maximum flexibility and ease-of-use.
 
 - The *first unnamed argument* is assumed to be the main content you want to insert into the knowledge base. This can be:
-  - Raw text (`str`)
+  - Raw text (`str`) 
   - A file pointer (e.g., opened PDF, image, etc.)
   - A valid HTTP(S) URL (`HttpUrl` string)
   - Or a Pydantic object matching your schema.
 > **Tip:** For best auto-extraction accuracy, document your schema attributes in the Pydantic class using descriptive field docs.
+
+> **To separate data processing:** If you prefer to handle your own data processing, you can insert Pydantic objects directly, and MindsDB will not apply any additional processing.
 
 
 - **Named arguments** let you set any attribute directly (`key=<value>`) and skip auto-fill for that specific attribute (`<value>` can be `None`). 
 
     - If you don't specify an `id`, MindsDB will automatically generate one by taking an MD5 hash of the content. 
     - Globally disable autofill using `_auto_fill=False`.
-    - By default, `insert` works as an upsert (updates existing records if they already exist, based on `id`). Disable this behavior by setting `_upsert=False`.
+    - By default, `insert` works as an upsert (updates existing records if they already exist, based on `id`,  `.insert(id, <other args>)`). Disable this behavior by setting `_upsert=False`.
 
+#### .delete(<id or filter: str or dict>)
 
+The `delete` method allows you to remove documents or records from your knowledge base with control and precision.
+
+- **Delete by ID:**  
+  Pass a single `id` as a string to delete the specific record.
+  ```python
+  kb.delete(id="your_record_id")
+  ```
+
+- **Delete by Filter:**  
+  Pass metadata keys you want to filter by to delete.
+  ```python
+  kb.delete(year= 2023)
+  ```
+
+- **Delete All:**  
+  To delete the *entire* 
+  ```python
+  kb.drop('*')
+  ```
+
+- The method returns the number of records deleted.
+
+> **Caution:** Deletions are *immediate* and irreversible. Double-check your filters and IDs before calling.
 
