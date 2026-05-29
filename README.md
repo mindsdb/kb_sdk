@@ -14,6 +14,7 @@ For example, this is how to create a KB from PDFs containing SEC filings:
 from minds_sdk import Client
 from pathlib import Path
 import datetime
+from aipdf import ocr
 from pydantic import BaseModel
 
 # The schema we want our knowledge base to have.
@@ -32,13 +33,13 @@ kb = Client(base_url=<yourmindsdbserver>).kb.create('sec_filings', FilingSchema)
 # Simply insert anything you want into the KB 
 # -- in this case SEC quarterly reports pdfs
 for pdf_file in Path("quarterly_filings_folder").glob("*.pdf"):
-    kb.insert(pdf_file, report_type='quarterly')  
+    kb.insert(ocr(pdf_file), report_type='quarterly')  
 ```
 
 
 
 When inserting into a Knowledge Base, unless you say otherwise, MindsDB Server works on your behalf to handle all the heavy lifting most people gladly skip:
-- Extracts info from files (PDFs, etc.) 
+
 - Tames messy content to fit into the schema you provide, merging it with whatever metadata you specify
 - Indexes your text attributes for lightning-fast semantic search
 
@@ -55,17 +56,11 @@ kb = Client(base_url=<yourmindsdbserver>).kb('sec_filings')
 # Semantic Search 
 results = kb.search("Quarterly reports for NVIDIA during H2 2024")
 
-# Analyze results
-answer = results.analyze("What changed in revenue?")
-
-# Unbound analysis over the entire KB 
-answer = kb.analyze("Quarterly revenue for NVIDIA over the past 5 years")
-
-# Semantic Search with literal metadata filters 
+# Semantic Search with literal metadata filters  (it should be equivalente to the previous)
 results = kb.search("NVIDIA during H2 2024", report_type="Quarterly")
 ```
 
-The goal with this part of the SDK is simple: **ask a question and get the answer your need**—`fast`. As such; the default for `.search(<plain language query>)` method auto-magically determines hybrid metadata filtering and semantic search over unstructured data to return the most relevant results. Likewise; If instead of a list results, what you want is a direct answer from either your search results or the entire knowledge base, use `.analyze(<plain language question>)`. That's it! No agents bs, no fuss—just answers.
+The goal with this part of the SDK is simple: **ask a question and get the answer your need**—`fast`. As such; the default for `.search(<plain language query>)` method auto-magically determines hybrid metadata filtering and semantic search over unstructured data to return the most relevant results. 
 
 
 
@@ -79,12 +74,8 @@ The `insert` method is designed for maximum flexibility and ease-of-use.
 
 - The *first unnamed argument* is assumed to be the main content you want to insert into the knowledge base. This can be:
   - Raw text (`str`) 
-  - A file pointer (e.g., opened PDF, image, etc.)
-  - A valid HTTP(S) URL (`HttpUrl` string)
   - Or a Pydantic object matching your schema.
 > **Tip:** For best auto-extraction accuracy, document your schema attributes in the Pydantic class using descriptive field docs.
-
-> **DIY Data Processing:** If you prefer to handle your own data processing, you can insert Pydantic objects directly, and MindsDB will not apply any additional processing.
 
 
 - **Named arguments** let you set any attribute directly (`key=<value>`) and skip auto-fill for that specific attribute (`<value>` can be `None`). 
